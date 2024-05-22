@@ -1,0 +1,92 @@
+POST http://localhost:5000/agregar/cliente
+Content-type: application/x-www-form-urlencoded
+Content-type: application/json
+{
+    "nombre": "juan",
+    "apellido": "Blandon",
+    "dni": "1000222",
+    "correo": "jb@mail.com",
+    "telefono": 321321,
+    "contrasena":"xxxxxx",
+    "id_rol":1
+}
+
+
+POST http://localhost:5000/agregar/cliente
+Content-type: application/x-www-form-urlencoded
+Content-type: application/json
+{
+    "nombre": "Nicolas",
+    "apellido": "Blandon",
+    "dni": "10002221",
+    "correo": "nb@mail.com",
+    "telefono": 123123,
+    "contrasena":"xxxxxx",
+    "id_rol":2
+}
+
+###################################################
+
+
+POST http://localhost:5000/valoracion/add/2
+Content-type: application/x-www-form-urlencoded
+Content-Type: application/json
+{
+    "talla_cm": 170,
+    "talla_mts": 1.70,
+    "peso_kg": 70,
+    "diametro_humero": 30,
+    "diametro_femur": 35
+}
+
+
+GET http://localhost:5000/valoracion/2
+
+
+
+
+PATCH http://localhost:5000/valoracion/patch/2
+Content-Type: application/json
+{
+    "talla_cm": 160,
+    "talla_mts": 1.60,
+    "peso_kg": 70,
+    "diametro_humero": 20,
+    "diametro_femur": 25
+}
+
+
+
+
+Content-type: application/x-www-form-urlencoded
+
+
+POST http://localhost:5000/pliegues/add/2
+Content-Type: application/json
+{
+  "tricipital":10,
+  "subescapular":10,
+  "suprailiaco":10,
+  "abdominal":10,
+  "muslo_medial":10,
+  "pierna":10
+}
+
+
+GET http://localhost:5000/pliegues/2
+
+
+
+POST http://localhost:5000/volumetria/add/2
+Content-Type: application/json
+{
+  "cuello":40,
+  "hombro":130,
+  "torax":150,
+  "abdomen":70,
+  "bitrocanterico":80,
+  "muslo_medial":70,
+  "pierna":40,
+  "brazo_contraido":50
+}
+GET http://localhost:5000/volumetria/2
