@@ -78,8 +78,7 @@ def patch_cliente(id):
     cliente.apellido = data.get("apellido", cliente.apellido)
     cliente.correo = data.get("correo", cliente.correo)
     cliente.telefono = data.get("telefono", cliente.telefono)
-    cliente.es_administrador = data.get(
-        "es_administrador", cliente.es_administrador)
+    cliente.es_administrador = data.get("es_administrador", cliente.es_administrador)
     db.session.commit()
     return jsonify({"Mensaje": "Usuario Actualizado"}), 200
 
@@ -89,8 +88,7 @@ def promover_admin(id):
     cliente = Cliente.query.get(id)
     if not cliente:
         return jsonify({"Mensaje": "Cliente no encontrado"}), 404
-    rol_administrador = Rol.query.filter_by(
-        descripcion="Administrador").first()
+    rol_administrador = Rol.query.filter_by(descripcion="Administrador").first()
     if not rol_administrador:
         return jsonify({"Mensaje": "Rol de administrador no encontrado"}), 404
     if cliente.rol == rol_administrador:

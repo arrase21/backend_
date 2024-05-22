@@ -2,7 +2,7 @@ from configuracion.Config import Config
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
-from models.Models import db
+from models.Models import db, initialize_roles
 
 from controllers.Login import logging_bp, login_manager
 from controllers.Cliente import clientes_bp
@@ -29,6 +29,7 @@ app.register_blueprint(volumetria_bp)
 
 with app.app_context():
     db.create_all()
+    initialize_roles()
     db.session.commit()
 
 if __name__ == "__main__":

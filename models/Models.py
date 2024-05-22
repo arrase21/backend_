@@ -24,8 +24,7 @@ class Cliente(db.Model):
     correo = db.Column(db.String(100), unique=True, nullable=False)
     telefono = db.Column(db.BigInteger, unique=True, nullable=False)
     contrasena = db.Column(db.String(300), unique=False, nullable=False)
-    id_rol = db.Column(db.Integer, db.ForeignKey(
-        "roles.id_rol"), nullable=False)
+    id_rol = db.Column(db.Integer, db.ForeignKey("roles.id_rol"), nullable=False)
     rol = db.relationship("Rol", back_populates="clientes")
     valoraciones = db.relationship("Valoracion", back_populates="cliente")
     volumetrias = db.relationship("Volumetria", back_populates="cliente")
@@ -136,3 +135,20 @@ Cliente.volumetrias = relationship(
 Cliente.pliegues = relationship(
     "Pliegues", order_by=Pliegues.id_pliegue, back_populates="cliente"
 )
+
+
+def initialize_roles():
+    roles = [
+        {"id_rol": 1, "descripcion": "Administrador"},
+        {"id_rol": 2, "descripcion": "Usuario"},
+    ]
+
+    for role_data in roles:
+        role = Rol.query.get(role_data["id_rol"])
+        if not role:
+            new_role = Rol(
+                id_rol=role_data["id_rol"], descripcion=role_data["descripcion"]
+            )
+            db.session.add(new_role)
+
+    db.session.commit()
