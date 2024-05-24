@@ -3,9 +3,8 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 
 from configuracion.Config import Config
-
-# from controllers.Login import logging_bp, login_manager
 from controllers.Cliente import clientes_bp
+from controllers.Login import logging_bp, login_manager
 from controllers.Pliegues import pliegues_bp
 from controllers.Upload import image_bp
 from controllers.Valoracion import valoraciones_bp
@@ -19,12 +18,12 @@ CORS(app)
 app.secret_key = "tu_clave_secreta"
 db.init_app(app)
 
-# login_manager.init_app(app)
+login_manager.init_app(app)
 
 migrate = Migrate(app, db)
 
 app.register_blueprint(clientes_bp)
-# app.register_blueprint(logging_bp)
+app.register_blueprint(logging_bp)
 app.register_blueprint(valoraciones_bp)
 app.register_blueprint(pliegues_bp)
 app.register_blueprint(volumetria_bp)
