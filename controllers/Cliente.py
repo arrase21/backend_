@@ -74,7 +74,7 @@ def post_cliente():
         )
 
 
-@clientes_bp.route("/actualizar/cliente/<int:id>", methods=["PATCH"])
+@clientes_bp.route("/actualizar/cliente/<int:id>/", methods=["PATCH"])
 def patch_cliente(id):
     if request.json is None:
         return jsonify({"Error": "Solicitud no valida"}), 400
@@ -86,12 +86,12 @@ def patch_cliente(id):
     cliente.apellido = data.get("apellido", cliente.apellido)
     cliente.correo = data.get("correo", cliente.correo)
     cliente.telefono = data.get("telefono", cliente.telefono)
-    cliente.es_administrador = data.get("es_administrador", cliente.es_administrador)
+    cliente.contrasena = data.get("contrasena", cliente.contrasena)
     db.session.commit()
     return jsonify({"Mensaje": "Usuario Actualizado"}), 200
 
 
-@clientes_bp.route("/cliente/promover_admin/<int:id>", methods=["PATCH"])
+@clientes_bp.route("/cliente/promover_admin/<int:id>/", methods=["PATCH"])
 def promover_admin(id):
     cliente = Cliente.query.get(id)
     if not cliente:
@@ -106,7 +106,7 @@ def promover_admin(id):
     return jsonify({"Mensaje": "Cliente promovido como administrador"}), 200
 
 
-@clientes_bp.route("/cliente/promover_user/<int:id>", methods=["PATCH"])
+@clientes_bp.route("/cliente/promover_user/<int:id>/", methods=["PATCH"])
 def promover_user(id):
     cliente = Cliente.query.get(id)
     if not cliente:
@@ -121,7 +121,7 @@ def promover_user(id):
     return jsonify({"Mensaje": "Cliente degradado a usuario"}), 200
 
 
-@clientes_bp.route("/eliminar/cliente/<int:id>", methods=["DELETE"])
+@clientes_bp.route("/eliminar/cliente/<int:id>/", methods=["DELETE"])
 def delete_cliente(id):
     cliente = Cliente.query.get(id)
     if not cliente:
