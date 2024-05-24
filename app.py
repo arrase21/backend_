@@ -9,6 +9,7 @@ from controllers.Cliente import clientes_bp
 from controllers.Valoracion import valoraciones_bp
 from controllers.Pliegues import pliegues_bp
 from controllers.Volumetria import volumetria_bp
+from controllers.Upload import image_bp
 
 # Crear la aplicación Flask
 app = Flask(__name__)
@@ -26,6 +27,7 @@ app.register_blueprint(logging_bp)
 app.register_blueprint(valoraciones_bp)
 app.register_blueprint(pliegues_bp)
 app.register_blueprint(volumetria_bp)
+app.register_blueprint(image_bp)
 
 with app.app_context():
     db.create_all()

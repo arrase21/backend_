@@ -6,9 +6,27 @@ volumetria_bp = Blueprint("vlumetria", __name__)
 MSG__NO_ENCONTRADO = "Volumetria no encontrado"
 
 
+@volumetria_bp.route("/volumetria/cliente/<int:cliente_id>", methods=["GET"])
+def get_volumetrias_by_cliente(cliente_id):
+    cliente = Cliente.query.get_or_404(cliente_id)
+    volumetrias = Volumetria.query.filter_by(cliente_id=cliente.id).all()
+    return jsonify(
+        {"volumetrias": [volumetria.to_json() for volumetria in volumetrias]}
+    ), 200
+
+
 @volumetria_bp.route("/volumetria/<int:id_volumetria>", methods=["GET"])
 def get_volumetria(id_volumetria):
     volumetria = Volumetria.query.get_or_404(id_volumetria)
+    if volumetria:
+        return jsonify({"Mensaje": volumetria.to_json()}), 200
+    else:
+        return jsonify({"Mensaje": "Error No encontrado"}), 400
+
+
+@volumetria_bp.route("/volumetria/cliente/<int:id>", methods=["GET"])
+def get_volumetria_cliente(id):
+    volumetria = Cliente.query.get_or_404(id)
     if volumetria:
         return jsonify({"Mensaje": volumetria.to_json()}), 200
     else:
@@ -24,27 +42,27 @@ def add_volumetria(id):
 
     data = request.get_json()
     required_fields = [
-        "cuello",
-        "hombro",
-        "torax",
-        "abdomen",
-        "bitrocanterico",
-        "muslo_medial",
-        "pierna",
-        "brazo_contraido",
+        "v_cuello",
+        "v_hombro",
+        "v_torax",
+        "v_abdomen",
+        "v_bitrocanterico",
+        "v_muslo_medial",
+        "v_pierna",
+        "v_brazo_contraido",
     ]
     if not all(field in data for field in required_fields):
         return jsonify({"Mensaje": "Faltan Campos Obligatorios"}), 404
 
     nueva_volumetria = Volumetria(
-        cuello=data["cuello"],
-        hombro=data["hombro"],
-        torax=data["torax"],
-        abdomen=data["abdomen"],
-        bitrocanterico=data["bitrocanterico"],
-        muslo_medial=data["muslo_medial"],
-        pierna=data["pierna"],
-        brazo_contraido=data["brazo_contraido"],
+        v_cuello=data["v_cuello"],
+        v_hombro=data["v_hombro"],
+        v_torax=data["v_torax"],
+        v_abdomen=data["v_abdomen"],
+        v_bitrocanterico=data["v_bitrocanterico"],
+        v_muslo_medial=data["v_muslo_medial"],
+        v_pierna=data["v_pierna"],
+        v_brazo_contraido=data["v_brazo_contraido"],
         cliente=cliente,
     )
 

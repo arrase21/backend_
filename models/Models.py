@@ -5,6 +5,16 @@ from werkzeug.security import check_password_hash, generate_password_hash
 db = SQLAlchemy()
 
 
+class Image(db.Model):
+    __tablename__ = "image"
+    id_image = db.Column(db.Integer, primary_key=True)
+    image_path = db.Column(db.String, unique=False, nullable=False)
+    id_cliente = db.Column(
+        db.Integer, db.ForeignKey("clientes.id_cliente"), nullable=False
+    )
+    clientes = db.relationship("Cliente", back_populates="imagen")
+
+
 class Rol(db.Model):
     __tablename__ = "roles"
     id_rol = db.Column(db.Integer, primary_key=True)
@@ -26,6 +36,7 @@ class Cliente(db.Model):
     contrasena = db.Column(db.String(300), unique=False, nullable=False)
     id_rol = db.Column(db.Integer, db.ForeignKey("roles.id_rol"), nullable=False)
     rol = db.relationship("Rol", back_populates="clientes")
+    imagen = db.relationship("Image", back_populates="clientes")
     valoraciones = db.relationship("Valoracion", back_populates="cliente")
     volumetrias = db.relationship("Volumetria", back_populates="cliente")
     pliegues = db.relationship("Pliegues", back_populates="cliente")
@@ -44,7 +55,6 @@ class Cliente(db.Model):
             "dni": self.dni,
             "correo": self.correo,
             "telefono": self.telefono,
-            "contrasena": self.contrasena,
         }
 
 
@@ -52,8 +62,9 @@ class Valoracion(db.Model):
     __tablename__ = "valoracion"
     id_valoracion = db.Column(db.Integer, primary_key=True)
     id_cliente = db.Column(db.Integer, db.ForeignKey("clientes.id_cliente"))
+    # fecha = db.Column(db.Date, unique=False, nullable=False)
     talla_cm = db.Column(db.Integer, unique=False, nullable=False)
-    talla_mts = db.Column(db.Integer, unique=False, nullable=False)
+    talla_mts = db.Column(db.Float, unique=False, nullable=False)
     peso_kg = db.Column(db.Integer, unique=False, nullable=False)
     diametro_humero = db.Column(db.Integer, unique=False, nullable=False)
     diametro_femur = db.Column(db.Integer, unique=False, nullable=False)
@@ -63,6 +74,7 @@ class Valoracion(db.Model):
         return {
             "id_valoracion": self.id_valoracion,
             "id_cliente": self.id_cliente,
+            # "fecha": self.fecha,
             "talla_cm": self.talla_cm,
             "talla_mts": self.talla_mts,
             "peso_kg": self.peso_kg,
@@ -76,28 +88,28 @@ class Volumetria(db.Model):
     id_volumetria = db.Column(db.Integer, primary_key=True)
     id_cliente = db.Column(db.Integer, db.ForeignKey("clientes.id_cliente"))
 
-    cuello = db.Column(db.Integer, unique=False, nullable=False)
-    hombro = db.Column(db.Integer, unique=False, nullable=False)  #
-    torax = db.Column(db.Integer, unique=False, nullable=False)
-    abdomen = db.Column(db.Integer, unique=False, nullable=False)
-    bitrocanterico = db.Column(db.Integer, unique=False, nullable=False)
-    muslo_medial = db.Column(db.Integer, unique=False, nullable=False)
-    pierna = db.Column(db.Integer, unique=False, nullable=False)
-    brazo_contraido = db.Column(db.Integer, unique=False, nullable=False)
+    v_cuello = db.Column(db.Integer, unique=False, nullable=False)
+    v_hombro = db.Column(db.Integer, unique=False, nullable=False)  #
+    v_torax = db.Column(db.Integer, unique=False, nullable=False)
+    v_abdomen = db.Column(db.Integer, unique=False, nullable=False)
+    v_bitrocanterico = db.Column(db.Integer, unique=False, nullable=False)
+    v_muslo_medial = db.Column(db.Integer, unique=False, nullable=False)
+    v_pierna = db.Column(db.Integer, unique=False, nullable=False)
+    v_brazo_contraido = db.Column(db.Integer, unique=False, nullable=False)
     cliente = relationship("Cliente", back_populates="volumetrias")
 
     def to_json(self):
         return {
             "id_volumetria": self.id_volumetria,
             "id_cliente": self.id_cliente,
-            "cuello": self.cuello,
-            "hombro": self.hombro,
-            "torax": self.torax,
-            "abdomen": self.abdomen,
-            "bitrocanterico": self.bitrocanterico,
-            "muslo_medial": self.muslo_medial,
-            "pierna": self.pierna,
-            "brazo_contraido": self.brazo_contraido,
+            "v_cuello": self.v_cuello,
+            "v_hombro": self.v_hombro,
+            "v_torax": self.v_torax,
+            "v_abdomen": self.v_abdomen,
+            "v_bitrocanterico": self.v_bitrocanterico,
+            "v_muslo_medial": self.v_muslo_medial,
+            "v_pierna": self.v_pierna,
+            "v_brazo_contraido": self.v_brazo_contraido,
         }
 
 

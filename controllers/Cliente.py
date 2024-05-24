@@ -1,3 +1,5 @@
+import re
+
 from flask import Blueprint, jsonify, request
 
 from models.Models import Cliente, Rol, db
@@ -28,7 +30,7 @@ def get_cliente(id):
         return jsonify({"message": "Cliente not found"}), 404
 
 
-@clientes_bp.route("/agregar/cliente", methods=["POST"])
+@clientes_bp.route("/agregar/cliente/", methods=["POST"])
 def post_cliente():
     if request.json is None:
         return jsonify({"Error": "Solicitud JSON no valida"}), 400
@@ -43,6 +45,12 @@ def post_cliente():
 
     if None in (nombre, apellido, dni, correo, telefono, contrasena, id_rol):
         return jsonify({"Mensaje": "Faltan campos obligatorios"}), 400
+    # Validaciones adicionales
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", correo):
+        return jsonify({"Mensaje": "Correo no válido"}), 400
+
+    # if not telefono.isdigit():
+    #     return jsonify({"Mensaje": "Teléfono no válido"}), 400
     nuevo_cliente = Cliente(
         nombre=nombre,
         apellido=apellido,

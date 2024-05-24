@@ -28,19 +28,18 @@ Content-type: application/json
 ###################################################
 
 
-POST http://localhost:5000/valoracion/add/2
-Content-type: application/x-www-form-urlencoded
+POST http://localhost:5000/valoracion/add/5
 Content-Type: application/json
 {
     "talla_cm": 170,
     "talla_mts": 1.70,
-    "peso_kg": 70,
-    "diametro_humero": 30,
-    "diametro_femur": 35
+    "peso_kg": 80,
+    "diametro_humero": 20,
+    "diametro_femur": 25
 }
 
 
-GET http://localhost:5000/valoracion/2
+GET http://localhost:5000/valoraciones/
 
 
 
@@ -61,7 +60,8 @@ Content-Type: application/json
 Content-type: application/x-www-form-urlencoded
 
 
-POST http://localhost:5000/pliegues/add/2
+POST http://localhost:5000/pliegues/add/5/
+Content-type: application/x-www-form-urlencoded
 Content-Type: application/json
 {
   "tricipital":10,
@@ -73,11 +73,12 @@ Content-Type: application/json
 }
 
 
-GET http://localhost:5000/pliegues/2
+GET http://localhost:5000/pliegues/1
 
 
 
-POST http://localhost:5000/volumetria/add/2
+POST http://localhost:5000/volumetria/add/5
+Content-type: application/x-www-form-urlencoded
 Content-Type: application/json
 {
   "cuello":40,
@@ -89,4 +90,5 @@ Content-Type: application/json
   "pierna":40,
   "brazo_contraido":50
 }
-GET http://localhost:5000/volumetria/2
+
+GET http://localhost:5000/volumetria/1

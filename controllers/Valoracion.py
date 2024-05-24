@@ -1,7 +1,8 @@
 import logging
-from models.Models import Valoracion, db, Cliente
 
-from flask import Blueprint, json, jsonify, request
+from flask import Blueprint, jsonify, request
+
+from models.Models import Cliente, Valoracion, db
 
 valoraciones_bp = Blueprint("valoraciones", __name__)
 valoraciones_bp = Blueprint("valoraciones", __name__)
@@ -11,6 +12,18 @@ MSG_CLIENTE_NO_ENCONTRADO = "Cliente no encontrado"
 MSG_SOLICITUD_JSON_NO_VALIDA = "Solicitud JSON no válida"
 MSG_FALTAN_CAMPOS_OBLIGATORIOS = "Faltan campos obligatorios"
 MSG_VALORACION_CREADA = "Valoración creada exitosamente"
+
+
+@valoraciones_bp.route("/valoraciones/cliente/<int:cliente_id>", methods=["GET"])
+def get_valoraciones_by_cliente(cliente_id):
+    cliente = Cliente.query.get_or_404(cliente_id)
+    valoraciones = Valoracion.query.filter_by(cliente_id=cliente.id).all()
+    return (
+        jsonify(
+            {"valoraciones": [valoracion.to_json() for valoracion in valoraciones]}
+        ),
+        200,
+    )
 
 
 @valoraciones_bp.route("/valoraciones/", methods=["GET"])
@@ -31,8 +44,7 @@ def get_valoracion(id_valoracion):
 
 @valoraciones_bp.route("/valoracion/add/<int:id>", methods=["POST"])
 def add_valoracion(id):
-    cliente = Cliente.query.get_or_404(
-        id, description=MSG_CLIENTE_NO_ENCONTRADO)
+    cliente = Cliente.query.get_or_404(id, description=MSG_CLIENTE_NO_ENCONTRADO)
 
     if not request.is_json:
         return jsonify({"error": MSG_SOLICITUD_JSON_NO_VALIDA}), 400
@@ -50,6 +62,7 @@ def add_valoracion(id):
         return jsonify({"error": MSG_FALTAN_CAMPOS_OBLIGATORIOS}), 400
 
     nueva_valoracion = Valoracion(
+        # fecha=data["fecha"],
         talla_cm=data["talla_cm"],
         talla_mts=data["talla_mts"],
         peso_kg=data["peso_kg"],
@@ -67,7 +80,7 @@ def add_valoracion(id):
         return jsonify({"error": str(e)}), 400
 
 
-@valoraciones_bp.route('/valoracion/patch/<int:id_valoracion>', methods=["PATCH"])
+@valoraciones_bp.route("/valoracion/patch/<int:id_valoracion>", methods=["PATCH"])
 def patch_valoracion(id_valoracion):
     if request.json is None:
         return jsonify({"Error": "Solicitud no valida"}), 400
@@ -76,13 +89,12 @@ def patch_valoracion(id_valoracion):
         return jsonify({"Error": "Usuario no encontrado"})
 
     data = request.json
+    valoracion.fecha = data.get("fecha", valoracion.fecha)
     valoracion.talla_cm = data.get("talla_cm", valoracion.talla_cm)
-    valoracion.talla_mts = data.get('talla_mts', valoracion.talla_mts)
-    valoracion.peso_kg = data.get('peso_kg', valoracion.peso_kg)
-    valoracion.diametro_humero = data.get(
-        'diametro_humero', valoracion.diametro_humero)
-    valoracion.diametro_femur = data.get(
-        'diametro_femur', valoracion.diametro_femur)
+    valoracion.talla_mts = data.get("talla_mts", valoracion.talla_mts)
+    valoracion.peso_kg = data.get("peso_kg", valoracion.peso_kg)
+    valoracion.diametro_humero = data.get("diametro_humero", valoracion.diametro_humero)
+    valoracion.diametro_femur = data.get("diametro_femur", valoracion.diametro_femur)
 
     db.session.commit()
     return jsonify({"Mensaje": "Valoraion actualizada"})

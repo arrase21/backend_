@@ -6,6 +6,13 @@ pliegues_bp = Blueprint("pliegues", __name__)
 MSG__NO_ENCONTRADO = "Pliegue no encontrado"
 
 
+@pliegues_bp.route("/pliegues/cliente/<int:cliente_id>", methods=["GET"])
+def get_pliegues_by_cliente(cliente_id):
+    cliente = Cliente.query.get_or_404(cliente_id)
+    pliegues = Pliegues.query.filter_by(cliente_id=cliente.id).all()
+    return jsonify({"pliegues": [pliegue.to_json() for pliegue in pliegues]}), 200
+
+
 @pliegues_bp.route("/pliegues/<int:id_pliegue>", methods=["GET"])
 def get_pliegue(id_pliegue):
     pliegues = Pliegues.query.get(id_pliegue)
