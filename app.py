@@ -35,5 +35,10 @@ with app.app_context():
     initialize_roles()
     db.session.commit()
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+def create_app():
+    return app
+
+
+# if __name__ == "__main__":
+#     app.run(debug=True)

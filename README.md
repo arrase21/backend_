@@ -14,6 +14,6 @@
 
 - Entrar al entorno virtual
   - pip install -r requirements.txt
-- Ejecutar `python app.py`
-- Al ejecutar `python app.py` este creara las tablas de la base de datos y levantara un servidor de prueba
+- Ejecutar `gunicorn --bind 0.0.0.0:5000 app:app`
+- Al ejecutar `gunicorn --bind 0.0.0.0:5000 app:app` este creara las tablas de la base de datos y levantara un servidor de prueba
 - En el archivo **http.http** puedes ver las rutas de todos los endpoints y consultarlas o consumirlas
