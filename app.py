@@ -1,8 +1,9 @@
+from configuracion.Config import Config
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
+from models.Models import db, initialize_roles
 
-from configuracion.Config import Config
 from controllers.Cliente import clientes_bp
 
 # from controllers.Login import logging_bp, login_manager
@@ -10,12 +11,12 @@ from controllers.Pliegues import pliegues_bp
 from controllers.Upload import image_bp
 from controllers.Valoracion import valoraciones_bp
 from controllers.Volumetria import volumetria_bp
-from models.Models import db, initialize_roles
 
 # Crear la aplicación Flask
 app = Flask(__name__)
 app.config.from_object(Config)
-CORS(app)
+# CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 app.secret_key = "tu_clave_secreta"
 db.init_app(app)
 

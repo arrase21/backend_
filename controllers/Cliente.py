@@ -1,7 +1,6 @@
 import re
 
 from flask import Blueprint, jsonify, request
-
 from models.Models import Cliente, Rol, db
 
 clientes_bp = Blueprint("clientes", __name__)

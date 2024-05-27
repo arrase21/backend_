@@ -26,18 +26,31 @@ Content-type: application/json
 }
 
 
-PATCH https://backend-jt8e.onrender.com/actualizar/cliente/1
 Content-type: application/x-www-form-urlencoded
+
+
+PATCH https://backend-jt8e.onrender.com/actualizar/cliente/1/
 Content-type: application/json
 {
     "nombre": "Nicolas",
     "apellido": "Blandon",
-    "dni": "10002221",
     "correo": "nb@mail.com",
     "telefono": 123123,
-    "contrasena":"xxxxxx",
-    "id_rol":2
+    "contrasena":"xxxxxx"
 }
+
+
+PATCH https://backend-jt8e.onrender.com/actualizar/cliente/1/
+Content-type: application/json
+{
+    "nombre": "Juan",
+    "apellido": "Blandon",
+    "correo": "jb@mail.com",
+    "telefono": 12312343,
+    "contrasena":"xxxxxx"
+}
+
+
 
 ###################################################
 
