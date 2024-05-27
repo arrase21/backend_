@@ -13,7 +13,7 @@ def get_clientes():
     return jsonify({"Clientes": json_clientes}), 200
 
 
-@clientes_bp.route("/cliente/<int:id>", methods=["GET"])
+@clientes_bp.route("/cliente/<int:id>/", methods=["GET"])
 def get_cliente(id):
     cliente = Cliente.query.get(id)
     if cliente:
@@ -48,8 +48,6 @@ def post_cliente():
     if not re.match(r"[^@]+@[^@]+\.[^@]+", correo):
         return jsonify({"Mensaje": "Correo no válido"}), 400
 
-    # if not telefono.isdigit():
-    #     return jsonify({"Mensaje": "Teléfono no válido"}), 400
     nuevo_cliente = Cliente(
         nombre=nombre,
         apellido=apellido,
